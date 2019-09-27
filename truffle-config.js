@@ -17,6 +17,8 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
+ require('dotenv').config();
+ const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 // const HDWalletProvider = require('truffle-hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
@@ -42,11 +44,34 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-    // development: {
-    //  host: "127.0.0.1",     // Localhost (default: none)
-    //  port: 8545,            // Standard Ethereum port (default: none)
-    //  network_id: "*",       // Any network (default: none)
-    // },
+    development: {
+    host: "127.0.0.1",     // Localhost (default: none)
+    port: 8545,            // Standard Ethereum port (default: none)
+    network_id: "*",       // Any network (default: none)
+  },
+    rinkeby: {
+      provider: function() {
+        return new HDWalletProvider(
+          process.env.MNEMONIC,
+          `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`
+        )
+      },
+      gas: 5000000,
+      gasPrice: 25000000000,
+      network_id: 4
+    },
+    mainnet: {
+          provider: function() {
+            return new HDWalletProvider(
+              process.env.MNEMONIC,
+              `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`
+            )
+          },
+          gas: 5000000,
+          gasPrice: 25000000000,
+          confirmations: 2,
+          network_id: 1
+        },
 
     // Another network with more advanced options...
     // advanced: {
